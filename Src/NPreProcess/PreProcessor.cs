@@ -17,7 +17,10 @@ namespace NPreProcess
                 type = System.IO.Path.GetExtension(inputFilePath).Substring(1).ToUpperInvariant();
             }
 
-            System.IO.File.WriteAllText(outputFilePath, PreProcessFile(context, inputFilePath, type));
+            var outputContent = PreProcessFile(context, inputFilePath, type);
+
+            if (outputContent != null)
+                System.IO.File.WriteAllText(outputFilePath, outputContent);
         }
 
         public static string PreProcessFile(Context context, string inputFilePath, string type = null)
@@ -29,9 +32,9 @@ namespace NPreProcess
 
             string fileContent = System.IO.File.ReadAllText(inputFilePath);
 
-            fileContent = PreProcess(context, fileContent, type);
+            string processedContent = PreProcess(context, fileContent, type);
 
-            return fileContent;
+            return string.Equals(fileContent, processedContent) ? null : processedContent;
         }
 
         public static string PreProcess(Context context, string content, string type)
