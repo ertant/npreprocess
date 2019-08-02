@@ -76,7 +76,7 @@ namespace NPreProcess
 
             content = fileType.Echo.Definition.Replace(content, delegate(Match match)
             {
-                var key = match.Value.Trim();
+                var key = match.Groups[1].Value.Trim();
 
                 return context.Contains(key) ? context[key].Trim() : "";
             });
@@ -94,12 +94,12 @@ namespace NPreProcess
             {
                 types["JS"] = new TypeDefinition()
                 {
-                    Echo = new RegexRule(@"(?://|/\\*)[ \t]*@echo[ \t]*([^\n*]*)[ \t]*(?:\\*/)?"),
-                    Include = new RegexRule(@"(?://|/\\*)[ \t]*@include[ \t]*([^\n*]*)[ \t]*(?:\\*/)?"),
-                    Exclude = new RegexRule(@"(?://|/\\*)[ \t]*@exclude[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endexclude[ \t]*(?:\\*/)?"),
-                    If = new RegexRule(@"(?://|/\\*)[ \t]*@if[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endif[ \t]*(?:\\*/)?"),
-                    IfDef = new RegexRule(@"(?://|/\\*)[ \t]*@ifdef[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endif[ \t]*(?:\\*/)?"),
-                    IfNDef = new RegexRule(@"(?://|/\\*)[ \t]*@ifndef[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endif[ \t]*(?:\\*/)?")
+                    Echo = new RegexRule(@"(?:\/\/|\/\*)[ \t]*@echo[ \t]*([^\n*]*)[ \t]*(?:\*\/)?"),
+                    Include = new RegexRule(@"(?:\/\/|\/\*)[ \t]*@include[ \t]*([^\n*]*)[ \t]*(?:\\*/)?"),
+                    Exclude = new RegexRule(@"(?:\/\/|\/\*)[ \t]*@exclude[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endexclude[ \t]*(?:\*\/)?"),
+                    If = new RegexRule(@"(?:\/\/|\/\*)[ \t]*@if[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endif[ \t]*(?:\*\/)?"),
+                    IfDef = new RegexRule(@"(?:\/\/|\/\*)[ \t]*@ifdef[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endif[ \t]*(?:\*\/)?"),
+                    IfNDef = new RegexRule(@"(?:\/\/|\/\*)[ \t]*@ifndef[ \t]*([^\n*]*)[ \t]*(?:\\*/)?", @"(?://|/\\*)[ \t]*@endif[ \t]*(?:\*\/)?")
                 };
 
                 types["HTML"] = new TypeDefinition()

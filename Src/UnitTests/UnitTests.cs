@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NPreProcess.MSBuild;
 using NUnit.Framework;
 
 namespace NPreProcess
@@ -17,6 +18,14 @@ namespace NPreProcess
             context["NODE_ENV"] = "production";
 
             return PreProcessor.PreProcess(context, input, type);
+        }
+
+        [TestCase("release : '/* @echo NODE_ENV */' || 'debug'","JS","release : 'production' || 'debug'")]
+        public void Echo(string input, string type, string expected)
+        {
+            var result = Process(input, type);
+
+            Assert.AreEqual(expected, result);
         }
 
         [Test]
